@@ -21,7 +21,7 @@ public class SectionController {
     }
 
     @GetMapping("code")
-    public ResponseEntity getCode(@RequestBody SectionDto data){
+    public ResponseEntity<?> getCode(@RequestBody SectionDto data){
         Integer articleId = articleService.getIdByName(data.getArticleName());
         String response = service.getSectionCodeByArticleIdAndIndex(articleId, data.getSectionIndex());
         return ResponseEntity.ok(response);

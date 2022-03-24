@@ -9,4 +9,5 @@ public class VersionDto {
     private String ip;
     private String articleName;
     private Integer sectionIndex;
+    private String status;
 }
