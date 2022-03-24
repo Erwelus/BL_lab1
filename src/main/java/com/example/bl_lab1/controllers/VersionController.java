@@ -7,6 +7,7 @@ import com.example.bl_lab1.model.SectionEntity;
 import com.example.bl_lab1.service.ArticleService;
 import com.example.bl_lab1.service.SectionService;
 import com.example.bl_lab1.service.VersionService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class VersionController {
     }
 
     @PostMapping("save")
-    public void save(@RequestBody VersionDto data) {
+    public void save(@RequestBody VersionDto data) throws Exception {
         Integer articleId = articleService.getIdByName(data.getArticleName());
         SectionEntity section = sectionService.getSectionByArticleIdAndIndex(articleId, data.getSectionIndex());
         if (data.getUsername() == null) {
@@ -33,31 +34,31 @@ public class VersionController {
     }
 
     @GetMapping("all")
-    public ResponseEntity getAll(){
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(service.getListOfWaitingUpdates());
     }
 
     @GetMapping("last")
-    public ResponseEntity getLast(@RequestBody SectionDto data){
+    public ResponseEntity<?> getLast(@RequestBody SectionDto data) {
         Integer articleId = articleService.getIdByName(data.getArticleName());
         SectionEntity section = sectionService.getSectionByArticleIdAndIndex(articleId, data.getSectionIndex());
         return ResponseEntity.ok(service.getTextOfLastUpdateBySection(section));
     }
 
     @GetMapping("previous")
-    public ResponseEntity getPrevious(@RequestBody SectionDto data){
+    public ResponseEntity<?> getPrevious(@RequestBody SectionDto data) {
         Integer articleId = articleService.getIdByName(data.getArticleName());
         SectionEntity section = sectionService.getSectionByArticleIdAndIndex(articleId, data.getSectionIndex());
         return ResponseEntity.ok(service.getTextOfLastApprovedVersion(section));
     }
 
     @PostMapping("approve")
-    public void approve(@RequestBody IdDto data){
+    public void approve(@RequestBody IdDto data) {
         service.approve(data.getId());
     }
 
     @PostMapping("decline")
-    public void decline(@RequestBody IdDto data){
+    public void decline(@RequestBody IdDto data) throws Exception {
         service.decline(data.getId());
     }
 }

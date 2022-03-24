@@ -7,13 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Repository
 public interface SectionRepo extends CrudRepository<SectionEntity, Integer> {
     @Transactional
     @Query(value = "select * from SECTION where article_id = ?1 and sectionorder = ?2", nativeQuery = true)
     SectionEntity findByArticleIdAndSectionOrder(Integer articleId, Integer order);
+
     @Transactional
     @Modifying
     @Query(value = "update section set newesttext = ?1 where id = ?2", nativeQuery = true)
