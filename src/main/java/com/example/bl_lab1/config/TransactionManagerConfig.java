@@ -1,6 +1,7 @@
 package com.example.bl_lab1.config;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
+import com.atomikos.icatch.jta.UserTransactionImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

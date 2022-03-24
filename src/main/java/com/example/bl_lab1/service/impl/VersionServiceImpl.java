@@ -23,7 +23,6 @@ public class VersionServiceImpl implements VersionService {
     private final VersionRepo repo;
     private final SectionRepo sectionRepo;
 
-    //todo change method signature
 
     @Override
     public void saveChangesByAuthorizedUser(String newText, String username, SectionEntity section) throws Exception {
