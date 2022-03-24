@@ -2,6 +2,7 @@ package com.example.bl_lab1.config;
 
 import com.atomikos.icatch.jta.UserTransactionManager;
 import com.atomikos.icatch.jta.UserTransactionImp;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,21 +11,27 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 import org.postgresql.xa.PGXADataSource;
 
 import javax.transaction.SystemException;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 public class TransactionManagerConfig {
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
 
     @Bean(initMethod = "init", destroyMethod = "close")
     public AtomikosDataSourceBean myDataSource() {
         PGXADataSource pgxaDataSource = new PGXADataSource();
-        pgxaDataSource.setUrl("jdbc:postgresql://localhost:5432/studs");
-        pgxaDataSource.setPassword("nvn024");
-        pgxaDataSource.setUser("s285583");
-
+        pgxaDataSource.setUrl(url);
+        pgxaDataSource.setUser(username);
+        pgxaDataSource.setPassword(password);
         AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
         dataSource.setXaDataSource(pgxaDataSource);
-        // Configure database holding order data
+        dataSource.setMaxPoolSize(10);
         return dataSource;
     }
 
