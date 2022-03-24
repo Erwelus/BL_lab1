@@ -6,6 +6,7 @@ import com.example.bl_lab1.dto.VersionDto;
 import com.example.bl_lab1.model.SectionEntity;
 import com.example.bl_lab1.service.ArticleService;
 import com.example.bl_lab1.service.SectionService;
+import com.example.bl_lab1.service.UserService;
 import com.example.bl_lab1.service.VersionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +17,23 @@ public class VersionController {
     private final VersionService service;
     private final SectionService sectionService;
     private final ArticleService articleService;
+    private final UserService userService;
 
-    public VersionController(VersionService service, SectionService sectionService, ArticleService articleService) {
+    public VersionController(VersionService service, SectionService sectionService, ArticleService articleService, UserService userService) {
         this.service = service;
         this.sectionService = sectionService;
         this.articleService = articleService;
+        this.userService = userService;
     }
 
     @PostMapping("save")
     public void save(@RequestBody VersionDto data) {
         Integer articleId = articleService.getIdByName(data.getArticleName());
         SectionEntity section = sectionService.getSectionByArticleIdAndIndex(articleId, data.getSectionIndex());
-        if (data.getUsername() == null) {
+        String curUsername = userService.getCurrentUserName();
+        if (curUsername==null){
             service.saveChangesByUnauthorizedUser(data.getNewText(), data.getIp(), section);
-        } else service.saveChangesByAuthorizedUser(data.getNewText(), data.getUsername(), section);
+        } else service.saveChangesByAuthorizedUser(data.getNewText(), curUsername, section);
     }
 
     @GetMapping("all")

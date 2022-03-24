@@ -13,7 +13,7 @@ import java.util.List;
 public interface SectionRepo extends CrudRepository<SectionEntity, Integer> {
     @Transactional
     @Query(value = "select * from SECTION where article_id = ?1 and sectionorder = ?2", nativeQuery = true)
-    SectionEntity findByArticleIdAndSectionOrder(Integer articleId, Integer order);
+    SectionEntity findByArticleIdAndSectionOrder(int articleId, int order);
     @Transactional
     @Modifying
     @Query(value = "update section set newesttext = ?1 where id = ?2", nativeQuery = true)
